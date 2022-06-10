@@ -11,6 +11,7 @@ public class BoardController {
 
 	private IBoardService bService;
 
+
 	Scanner sc = new Scanner(System.in);
 	
 	public BoardController() {
