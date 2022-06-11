@@ -11,8 +11,7 @@
 	</settings>
 
 	<typeAliases>
-		<typeAlias type="boardVO.BoardVO"
-			alias="bVO" />
+		<typeAlias type="boardVO.BoardVO" alias="bVO" />
 	</typeAliases>
 
 	<environments default="development"> 

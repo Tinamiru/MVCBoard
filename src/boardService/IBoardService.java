@@ -6,16 +6,16 @@ import boardVO.BoardVO;
 
 public interface IBoardService {
 
-	public List<BoardVO> searchBoard(BoardVO bv);
+	List<BoardVO> searchBoard(BoardVO bv);
 
-	public int deleteBoard(String bTitle, String bWriter);
+	int deleteBoard(BoardVO bv);
 
-	public int updateBoard(BoardVO bv);
+	int updateBoard(BoardVO bv);
 
-	public int insertBoard(BoardVO bv);
+	int insertBoard(BoardVO bv);
 
-	public List<BoardVO> getAllBoardList();
+	List<BoardVO> getAllBoardList();
 
-	public boolean checkBoard(String bTitle);
+	boolean checkBoard(String bTitle);
 
 }

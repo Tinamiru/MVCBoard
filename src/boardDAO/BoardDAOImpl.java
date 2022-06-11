@@ -10,7 +10,7 @@ import util.MybatisUtil;
 public class BoardDAOImpl implements IBoardDAO {
 
     private static IBoardDAO bDao;
-    private SqlSession sqlSession;
+    private final SqlSession sqlSession;
 
     private BoardDAOImpl() {
         sqlSession = MybatisUtil.getInstance();
@@ -26,17 +26,32 @@ public class BoardDAOImpl implements IBoardDAO {
 
     @Override
     public List<BoardVO> searchBoard(BoardVO bv) {
-        return null;
+        return sqlSession.selectList("board.searchBoard", bv);
     }
 
     @Override
-    public int deleteBoard(String bTitle, String bWriter) {
-        return 0;
+    public int deleteBoard(BoardVO bv) {
+
+        int cnt = sqlSession.delete("board.deleteBoard", bv);
+
+        if (cnt > 0) {
+            sqlSession.commit();
+        } else {
+            sqlSession.rollback();
+        }
+        return cnt;
     }
 
     @Override
     public int updateBoard(BoardVO bv) {
-        return 0;
+        int cnt = sqlSession.insert("board.updateBoard", bv);
+
+        if (cnt > 0) {
+            sqlSession.commit();
+        } else {
+            sqlSession.rollback();
+        }
+        return cnt;
     }
 
     @Override
@@ -55,13 +70,19 @@ public class BoardDAOImpl implements IBoardDAO {
     @Override
     public List<BoardVO> getAllBoardList() {
 
-        List<BoardVO> bList = sqlSession.selectList("board.getBoardAll");
-
-        return bList;
+        return sqlSession.selectList("board.getBoardAll");
     }
 
     @Override
     public boolean checkBoard(String bTitle) {
-        return false;
+        boolean isExist = false;
+
+        int cnt = sqlSession.selectOne("board.checkBoard", bTitle);
+
+        if (cnt > 0) {
+            isExist = true;
+        }
+
+        return isExist;
     }
 }

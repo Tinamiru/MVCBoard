@@ -3,103 +3,95 @@
 <mapper namespace="board">
 
 
-	<insert id="insertBoard" parameterType="bVO">
+    <insert id="insertBoard" parameterType="bVO">
 
-		INSERT INTO JDBC_BOARD
-		(
-		board_no, board_title, board_writer,
-		board_date, board_content )
-		VALUES
-		(BOARD_SEQ.nextVal , #{bTitle}, #{bWriter},
-		sysdate, #{bContent})
+        INSERT INTO JDBC_BOARD
+        (board_no, board_title, board_writer,
+         board_date, board_content)
+        VALUES (BOARD_SEQ.nextVal, #{bTitle}, #{bWriter},
+                sysdate, #{bContent})
 
-	</insert>
+    </insert>
 
-	<update id="updateBoard" parameterType="bVO">
+    <update id="updateBoard" parameterType="bVO">
 
-		update mymember
-		set
-		mem_name = #{memName},
-		mem_tel =
-		#{memTel},
-		mem_addr = #{memAddr}
-		where
-		mem_id = #{memId}
+        update JDBC_BOARD
+        set board_writer  = #{bWriter},
+            board_content = #{bContent},
+            board_date    = sysdate
+        where board_title = #{bTitle}
 
-	</update>
+    </update>
 
-	<delete id="deleteBoard" parameterType="String">
+    <delete id="deleteBoard" parameterType="bVO">
 
-		delete from mymember
-		where mem_id = #{aaaaaa}
+        delete
+        from JDBC_BOARD
+        where board_title = #{bTitle}
+          and board_writer = #{bWriter}
 
-	</delete>
+    </delete>
 
-	<select id="getBoardAll" resultType="bVO">
+    <select id="getBoardAll" resultType="bVO">
 
-		select board_no as bNO
-		,board_title as bTitle
-		,board_writer as bWriter
-		,board_date as bDate
-		,board_content as bContent
-		from JDBC_BOARD
-		order by bNO desc
+        select board_no      as bNO
+             , board_title   as bTitle
+             , board_writer  as bWriter
+             , board_date    as bDate
+             , board_content as bContent
+        from JDBC_BOARD
+        order by bNO desc
 
-	</select>
+    </select>
 
-	<resultMap type="bVO" id="memMap">
-		<result column="mem_id" property="memId" />
-		<result column="mem_name" property="memName" />
-		<result column="mem_tel" property="memTel" />
-		<result column="mem_addr" property="memAddr" />
-	</resultMap>
+    <resultMap type="bVO" id="bMap">
+        <result column="board_no" property="bNO"/>
+        <result column="board_title" property="bTitle"/>
+        <result column="board_writer" property="bWriter"/>
+        <result column="board_date" property="bDate"/>
+        <result column="board_content" property="bContent"/>
+    </resultMap>
 
-	<select id="getBoardAll2" resultType="bVO">
+    <select id="getBoardAll2" resultType="bVO">
 
-		select mem_id
-		,mem_name
-		,mem_tel
-		,mem_addr
-		from mymember
+        select board_no
+             , board_title
+             , board_writer
+             , board_date
+             , board_content
+        from JDBC_BOARD
+        order by bNO desc
 
-	</select>
+    </select>
 
-	<select id="getBoard" resultType="bVO">
+    <select id="checkBoard" parameterType="String" resultType="int">
 
-		select mem_id
-		,mem_name
-		,mem_tel
-		,mem_addr
-		from mymember
-		where mem_id = #{memId}
+        select count(*) as cnt
+        from JDBC_BOARD
+        where board_title = #{bTitle}
 
-	</select>
+    </select>
 
-	<select id="checkMember" parameterType="String" resultType="int">
+    <select id="searchBoard" resultType="bVO">
 
-		select count(*) as cnt
-		from mymember where mem_id = #{memId}
+        select board_no as bNO
+        , board_title as bTitle
+        , board_writer as bWriter
+        , board_date as bDate
+        , board_content as bContent
+        from JDBC_BOARD
+        where 1=1
+        <if test="bTitle != null and bTitle != ''">
+            and board_title = #{bTitle}
+        </if>
+        <if test="bWriter != null and bWriter != ''">
+            and board_writer = #{bWriter}
+        </if>
+        <if test="bContent != null and bContent != ''">
+            and board_content like '%' || #{bContent} || '%'
+        </if>
 
-	</select>
-
-	<select id="searchMember" resultType="bVO">
-
-		select * from mymember
-		where 1=1
-		<if test="memId != null and memId != ''">
-			and mem_id = #{memId}
-		</if>
-		<if test="memName != null and memName != ''">
-			and mem_name = #{memName}
-		</if>
-		<if test="memTel != null and memTel != ''">
-			and meme_tel = #{memTel}
-		</if>
-		<if test="memAddr != null and memAddr != ''">
-			and mem_addr like '%' || #{memAddr} || '%'
-		</if>
-
-	</select>
+    </select>
 
 
 </mapper>

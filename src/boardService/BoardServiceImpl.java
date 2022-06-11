@@ -9,7 +9,7 @@ import boardVO.BoardVO;
 public class BoardServiceImpl implements IBoardService {
 
 	private static IBoardService bService;
-	private IBoardDAO bDAO;
+	private final IBoardDAO bDAO;
 
 	private BoardServiceImpl() {
 		bDAO = BoardDAOImpl.getInstance();
@@ -24,38 +24,32 @@ public class BoardServiceImpl implements IBoardService {
 
 	@Override
 	public List<BoardVO> searchBoard(BoardVO bv) {
-
-		return null;
+		return bDAO.searchBoard(bv);
 	}
 
 	@Override
-	public int deleteBoard(String bTitle, String bWriter) {
-	int cnt = bDAO.deleteBoard(bTitle, bWriter);
-		return cnt;
+	public int deleteBoard(BoardVO bv) {
+		return bDAO.deleteBoard(bv);
 	}
 
 	@Override
 	public int updateBoard(BoardVO bv) {
-
-		return 0;
+		return bDAO.updateBoard(bv);
 	}
 
 	@Override
 	public int insertBoard(BoardVO bv) {
-		int cnt = bDAO.insertBoard(bv);
-		return cnt;
+		return bDAO.insertBoard(bv);
 	}
 
 	@Override
 	public List<BoardVO> getAllBoardList() {
-		List<BoardVO> bList = bDAO.getAllBoardList();
-		return bList;
+		return bDAO.getAllBoardList();
 	}
 
 	@Override
 	public boolean checkBoard(String bTitle) {
-
-		return false;
+		return bDAO.checkBoard(bTitle);
 	}
 
 }

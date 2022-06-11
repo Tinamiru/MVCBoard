@@ -8,7 +8,7 @@ public interface IBoardDAO {
 
 	List<BoardVO> searchBoard(BoardVO bv);
 
-	int deleteBoard(String bTitle, String bWriter);
+	int deleteBoard(BoardVO bv);
 
 	int updateBoard(BoardVO bv);
 
