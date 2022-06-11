@@ -2,7 +2,7 @@ package boardController;
 
 import java.util.*;
 
-import boardService.BoardService;
+import boardService.BoardServiceImpl;
 import boardService.IBoardService;
 import boardVO.BoardVO;
 import boardView.BoardView;
@@ -15,10 +15,10 @@ public class BoardController {
 	Scanner sc = new Scanner(System.in);
 	
 	public BoardController() {
-		bService = BoardService.getInstance();
+		bService = BoardServiceImpl.getInstance();
 	}
 
-	public void menuControll() {
+	public void menuController() {
 
 		BoardController bc = new BoardController();
 
@@ -63,8 +63,8 @@ public class BoardController {
 
 		System.out.print("제목 >> ");
 		String bTitle = sc.nextLine();
-		
-		bv.set
+		String bWriter = sc.nextLine();
+
 		bService.searchBoard(bv);
 	}
 
@@ -72,6 +72,15 @@ public class BoardController {
 	 * 게시글 삭제 메소드
 	 */
 	private void deleteBoard() {
+		System.out.println("삭제할 글정보를 입력하세요.");
+		System.out.print("글 제목 >> ");
+		String bTitle = sc.nextLine();
+
+		System.out.print("작성자 >> ");
+		String bWriter = sc.nextLine();
+
+		int cnt = bService.deleteBoard(bTitle, bWriter);
+
 
 	}
 

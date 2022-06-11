@@ -2,22 +2,22 @@ package boardService;
 
 import java.util.List;
 
-import boardDAO.BoardDAO;
+import boardDAO.BoardDAOImpl;
 import boardDAO.IBoardDAO;
 import boardVO.BoardVO;
 
-public class BoardService implements IBoardService {
+public class BoardServiceImpl implements IBoardService {
 
 	private static IBoardService bService;
 	private IBoardDAO bDAO;
 
-	private BoardService() {
-		bDAO = BoardDAO.getInstance();
+	private BoardServiceImpl() {
+		bDAO = BoardDAOImpl.getInstance();
 	}
 
 	public static IBoardService getInstance() {
 		if (bService == null) {
-			bService = new BoardService();
+			bService = new BoardServiceImpl();
 		}
 		return bService;
 	}
@@ -29,9 +29,9 @@ public class BoardService implements IBoardService {
 	}
 
 	@Override
-	public int deleteBoard(String bTitle) {
-
-		return 0;
+	public int deleteBoard(String bTitle, String bWriter) {
+	int cnt = bDAO.deleteBoard(bTitle, bWriter);
+		return cnt;
 	}
 
 	@Override
